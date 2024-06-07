@@ -3,52 +3,55 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Siswa;
-use Illuminate\Support\Facades\Validator;
+use App\Models\Akun;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
-class SiswaController extends Controller
+class UserController extends Controller
 {
     public function index()
     {
-        $siswa = Siswa::all();
-        return response()->json($siswa, 200);
+        $user = Akun::all();
+        return response()->json($user, 200);
     }
 
     public function show($id)
     {
-        $siswa = Siswa::find($id);
-        if (!$siswa) {
-            return response()->json(['message' => 'Siswa tidak ditemukan'], 404);
+        $user = Akun::find($id);
+        if (!$user) {
+            return response()->json(['message' => 'User tidak ditemukan'], 404);
         }
-        return response()->json($siswa, 200);
+        return response()->json($user, 200);
     }
-
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'nis' => 'required|string',
-            'tahun' => 'required|string|max:4',
+            'nip' => 'nullable',
+            'password' => 'required',
+            'whatsapp' => 'nullable',
+            'is_admin' => 'required',
         ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
-        $siswa = Siswa::create($request->all());
-        return response()->json($siswa, 201);
+        $user = Akun::create($request->all());
+        return response()->json($user, 201);
     }
 
     public function update(Request $request, $id)
     {
-        $user = Siswa::find($id);
+        $user = Akun::find($id);
         if (!$user) {
             return response()->json(['message' => 'Siswa tidak ditemukan'], 404);
         }
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'nis' => 'required|string',
-            'tahun' => 'required|string|max:4',
+            'nip' => 'nullable',
+            'password' => 'required',
+            'whatsapp' => 'nullable',
+            'is_admin' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -60,7 +63,7 @@ class SiswaController extends Controller
 
     public function destroy($id)
     {
-        $siswa = Siswa::find($id);
+        $siswa = Akun::find($id);
         if (!$siswa) {
             return response()->json(['message' => 'Siswa tidak ditemukan'], 404);
         }
