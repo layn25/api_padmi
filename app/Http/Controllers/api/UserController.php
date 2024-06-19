@@ -23,6 +23,16 @@ class UserController extends Controller
         }
         return response()->json($user, 200);
     }
+
+    public function login(String $user, String $pass)
+    {
+        $siswa = Akun::where('email', $user)->where('password', $pass)->firstorfail();
+        if ($siswa==null) {
+            return response()->json(['message' => 'Siswa tidak ditemukan'], 404);
+        }
+        return response()->json($siswa, 200);
+    }
+
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [

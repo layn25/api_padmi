@@ -42,6 +42,10 @@ Route::group(['prefix' => 'users'], function () {
     Route::delete('/{id}', [UserController::class, 'destroy']);
 });
 
+Route::group(['prefix' => 'login'], function () {
+    Route::get('/{user}/{pass}', [UserController::class, 'login']);
+});
+
 Route::group(['prefix' => 'bullying'], function () {
     Route::get('/', [BullyingController::class, 'index']);
     Route::get('/{id}', [BullyingController::class, 'show']);
