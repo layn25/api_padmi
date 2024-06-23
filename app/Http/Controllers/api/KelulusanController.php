@@ -67,16 +67,6 @@ class KelulusanController extends Controller
         if (!$siswa) {
             return response()->json(['message' => 'Kelulusan tidak ditemukan'], 404);
         }
-        $prestasi = Prestasi::where('siswaId', $id);
-        $kelulusan = Kelulusan::where('siswaId', $id);
-        $pelangaran = Pelanggaran::where('siswaId', $id);
-        $bullying = Bullying::where('pelaku', $id);
-        $bullying2 = Bullying::where('korban', $id);
-        $prestasi->delete();
-        $kelulusan->delete();
-        $pelangaran->delete();
-        $bullying->delete();
-        $bullying2->delete();
         
         $siswa->delete();
         return response()->json(['message' => 'Kelulusan berhasil dihapus'], 200);

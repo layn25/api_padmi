@@ -3,6 +3,10 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Bullying;
+use App\Models\Kelulusan;
+use App\Models\Pelanggaran;
+use App\Models\Prestasi;
 use App\Models\Siswa;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -64,6 +68,18 @@ class SiswaController extends Controller
         if (!$siswa) {
             return response()->json(['message' => 'Siswa tidak ditemukan'], 404);
         }
+
+        $prestasi = Prestasi::where('siswaId', $id);
+        $kelulusan = Kelulusan::where('siswaId', $id);
+        $pelangaran = Pelanggaran::where('siswaId', $id);
+        $bullying = Bullying::where('pelaku', $id);
+        $bullying2 = Bullying::where('korban', $id);
+        $prestasi->delete();
+        $kelulusan->delete();
+        $pelangaran->delete();
+        $bullying->delete();
+        $bullying2->delete();
+
         $siswa->delete();
         return response()->json(['message' => 'User berhasil dihapus'], 200);
     }
